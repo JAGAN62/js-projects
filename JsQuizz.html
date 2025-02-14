@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #282c36;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        h1{
+            color:white;
+            text-align: center;
+        }
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1e1e2f;
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px #ff4757;
+            transition: transform 0.3s ease-in-out;
+        }
+        .container:hover {
+            transform: scale(1.02);
+        }
+        #one, #two, #score, #exit {
+            font-size: 20px;
+            margin-bottom: 15px;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            transition: 0.3s;
+        }
+        input[type="text"]:focus {
+            background: #ddd;
+            border:3px solid #ff4757;
+        }
+        button {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #e84118;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                width: 90%;
+                padding: 15px;
+            }
+            #one, #two, #score, #exit {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>JS Quizz</h1>
+    <div class="container">
+        <div id="one"></div>
+        <input type="text" id="in" required>
+        <button id="bt1" onclick="nextQuestion()">Next</button>
+        <div id="two"></div>
+        <div id="score"></div>
+        <div id="exit"></div>
+        <button id="bt2" onclick="again()">Restart</button>
+    </div>
+    <script> 
+        const questions = {
+            "What is the keyword used to exit a loop prematurely?": "break",
+            "What is the keyword used to skip the current iteration of a loop?": "continue",
+            "What is the method used to add an element to the end of an array?": "push",
+            "What is the result of Boolean(' ')?": "false",
+            "What is the method used to sort the elements of an array?": "sort",
+            "What method removes the last element from an array?": "pop",
+            "What method returns an array's length?": "length",
+            "What keyword is used to define a constant?": "const",
+            "Which symbol is used to concatenate two strings?": "+",
+            "What method is used to trim whitespace from a string?": "trim",
+            "What method reverses an array?": "reverse",
+            "What symbol is used for the ternary operator?": "?"
+        };
+
+        let selectedQuestions = [];
+        let currentIndex = 0;
+        let score = 0;
+
+        if(confirm('Start Quiz Game?')){
+            function get(count) {
+                const keys = Object.keys(questions);
+                keys.sort(() => Math.random() - 0.5);
+                return keys.slice(0, count); 
+            }
+
+            function startQuiz() {
+                selectedQuestions = get(5); 
+                currentIndex = 0;
+                score = 0;
+                document.getElementById("score").innerText = ""; 
+                document.getElementById("two").innerHTML="";
+                nextQuestion(); 
+            }
+
+            function nextQuestion() {
+                if (currentIndex > 0) {
+                    let userAnswer = document.getElementById("in").value.trim().toLowerCase();
+                    let correctAnswer = questions[selectedQuestions[currentIndex - 1]].toLowerCase();
+                    
+                    if (userAnswer === correctAnswer) {
+                         document.getElementById("two").innerHTML="Correct! ✅";
+                        score++;
+                    } else {
+                        document.getElementById("two").innerHTML=`Incorrect ❌ The correct answer is: ${correctAnswer}`;
+                    }
+                }
+
+                if (currentIndex < selectedQuestions.length) {
+                    document.getElementById("one").innerText = `${currentIndex + 1}. ${selectedQuestions[currentIndex]}`;
+                    document.getElementById("in").value = "";
+                    currentIndex++;
+                } else {
+                    document.getElementById("one").innerText = "Quiz Completed!";
+                    document.getElementById("score").innerText = `Your final score is ${score}/${selectedQuestions.length}`;
+                    document.getElementById("two").innerHTML="";
+                    document.getElementById("in").style.display='none';
+                    document.getElementById("bt1").style.display='none';
+                    document.getElementById("bt2").style.display='none';
+                }
+                document.getElementById("in").value = "";
+            }
+            
+            function again(){
+                startQuiz();
+            }
+            startQuiz();
+        } else {
+            document.getElementById('exit').innerHTML='End Game!';
+            document.getElementById('one').style.display='none';
+            document.getElementById('two').style.display='none';
+            document.getElementById('score').style.display='none';
+            document.getElementById('in').style.display='none';
+            document.getElementById('bt1').style.display='none';
+            document.getElementById('bt2').style.display='none';
+        }
+    </script>
+</body>
+</html>
