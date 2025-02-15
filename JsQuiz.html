@@ -6,101 +6,129 @@
     <meta name="theme-color" content="cyan">
     <title>Quiz Game</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #282c36;
-            color: white;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-        h1{
-            color:white;
-            text-align: center;
-        }
-        .container {
-            max-width: 500px;
-            margin: 50px auto;
-            padding: 20px;
-            background: #1e1e2f;
-            border-radius: 15px;
-            box-shadow: 0px 0px 15px #ff4757;
-            transition: transform 0.3s ease-in-out;
-            /* filter:blur(5px); */
-        }
-        .container:hover {
-            transform: scale(1.02);
-        }
-        #one, #two, #score, #exit ,#zero {
+body {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    background: #1e1e2f;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ffcc00;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    animation: fadeInDown 1s ease-in-out;
+    position: relative;
+    top: 0;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 500px;
+    backdrop-filter: blur(15px);
+    animation: zoomIn 0.8s ease-in-out;
+}
+
+input {
+    width: 90%;
+    padding: 12px;
+    margin: 15px 0;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    color: #000;
+    transition: all 0.3s ease-in-out;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+}
+
+button {
+    background: #ffcc00;
+    color: #1e1e2f;
+    border: none;
+    padding: 12px 25px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    width: 25%;
+    text-align:center;
+    margin-left:35%;
+}
+
+button:hover {
+    background: #ffdd33;
+    transform: translateY(-3px);
+}
+
+#bt2 {
+    display: none;
+    margin-top: 15px;
+}
+#one, #two, #score, #exit, #zero {
             font-size: 20px;
             margin: 15px;
-            opacity: 0;
             animation: fadeIn 1s forwards;
         }
-       
-        #wish{
-            font-size: 20px;
+#wish {
+            font-size: 30px;
             margin-bottom: 15px;
-            color:#1e1e2f;
-            opacity: 0;
-            animation: fadeIn 1s forwards,fire 1s infinite;
+            color: #3d3d3c;
+            animation: fadeIn 1s forwards, fire 1s infinite;
         }
-        @keyframes fire{
-            0%{
-               text-shadow:2px 0 rgb(216, 23, 23),-2px 0 rgb(243, 246, 242);
-            }
-            50% {
-                text-shadow:-2px 0 rgb(0, 229, 255),2px 0 rgb(255, 0, 187);
-            }
-            100%{
-                text-shadow:2px 0 rgb(64, 3, 245),-2px 0 rgb(3, 253, 32);
-            }
+@keyframes fire {
+            0% { text-shadow: 2px 0 rgb(216, 23, 23), -2px 0 rgb(243, 246, 242); }
+            50% { text-shadow: -2px 0 rgb(0, 229, 255), 2px 0 rgb(255, 0, 187); }
+            100% { text-shadow: 2px 0 rgb(64, 3, 245), -2px 0 rgb(3, 253, 32); }
         }
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        input[type="text"] {
-            width: 80%;
-            padding: 10px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 10px;
-            outline: none;
-            transition: 0.3s;
-        }
-        input[type="text"]:focus {
-            background: #ddd;
-            border:3px solid #ff4757;
-        }
-        button {
-            background: #ff4757;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin-top: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        button:hover {
-            background: #e84118;
-        }
-        
-        @media (max-width: 600px) {
-            .container {
-                width: 90%;
-                padding: 15px;
-            }
-            #one, #score, #exit {
-                font-size: 18px;
-            }
-            #two{
-                margin:10px;
-                font-size: 18px;
-            }
-        }
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes zoomIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2.5rem;
+        position: static;
+    }
+    .container {
+        width: 95%;
+        padding: 20px;
+    }
+    button {
+        width: 100%;
+    }
+}
+
     </style>
+    
 </head>
 <body>
     <h1>JS Quiz</h1>
@@ -113,7 +141,7 @@
         <div id="exit"></div>
         <div id="wish"></div>
         <div id="zero"></div>
-        <button id="bt2" onclick="again()">Restart</button>
+        <button id="bt2" onclick="again()" style="display:none;">Restart</button>
     </div>
     <script> 
         const questions = {
@@ -139,15 +167,19 @@
             function get(count) {
                 const keys = Object.keys(questions);
                 keys.sort(() => Math.random() - 0.5);
-                return keys.slice(0, count); 
+                return keys.slice(0, count); style.display
             }
 
             function startQuiz() {
                 selectedQuestions = get(5); 
                 currentIndex = 0;
                 score = 0;
-                document.getElementById("score").innerText = ""; 
-                document.getElementById("two").innerHTML="";
+                document.getElementById("zero").innerHTML = "";
+                document.getElementById("wish").innerHTML = "";
+
+                document.getElementById("in").style.display = "block"; 
+                document.getElementById("bt1").style.display="block";
+                document.getElementById("bt2").style.display='none';
                 nextQuestion(); 
             }
 
@@ -157,7 +189,7 @@
                     let correctAnswer = questions[selectedQuestions[currentIndex - 1]].toLowerCase();
                     
                     if (userAnswer === correctAnswer) {
-                         document.getElementById("two").innerHTML="Correct! ✅";
+                        document.getElementById("two").innerHTML="Correct! ✅";
                         score++;
                     } else {
                         document.getElementById("two").innerHTML=`Incorrect ❌ The correct answer is: ${correctAnswer}`;
@@ -174,40 +206,32 @@
                     document.getElementById("score").innerText = `Your final score is ${score}/${selectedQuestions.length}.`;
                     if(score === 5){
                          document.getElementById("wish").innerHTML="Congratulations!🎊🎆";        
-                    }else if(score === 0 || score < 3){
-                         document.getElementById("zero").innerHTML="Better Luck Next Time!😊";         
-                    }
-                    function again(){
-                         startQuiz();
-                     }
+                    }else if(score < 3){
+                         document.getElementById("zero").innerHTML="Better Luck Next Time!😊";       
+                        }
+                        
+                    document.getElementById("bt2").style.display='block';
                     document.getElementById("two").innerHTML="";
                     document.getElementById("in").style.display='none';
                     document.getElementById("bt1").style.display='none';
-                    document.getElementById("bt2").style.display='none';
                 }
                 document.getElementById("in").value = "";
             }
             
             function clearInput(){
-            document.getElementById("two").innerHTML="";
+                document.getElementById("two").innerHTML="";
             }
-            
-
-         
             
             function again(){
+                document.getElementById("score").innerHTML="";
                 startQuiz();
             }
-
+            
             startQuiz();
         } else {
             document.getElementById('exit').innerHTML='Game Over!';
-            document.getElementById('one').style.display='none';
-            document.getElementById('two').style.display='none';
-            document.getElementById('score').style.display='none';
             document.getElementById('in').style.display='none';
             document.getElementById('bt1').style.display='none';
-            document.getElementById('bt2').style.display='none';
         }
     
     </script>
