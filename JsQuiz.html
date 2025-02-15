@@ -25,15 +25,34 @@
             border-radius: 15px;
             box-shadow: 0px 0px 15px #ff4757;
             transition: transform 0.3s ease-in-out;
+            /* filter:blur(5px); */
         }
         .container:hover {
             transform: scale(1.02);
         }
-        #one, #two, #score, #exit {
+        #one, #two, #score, #exit ,#zero {
             font-size: 20px;
             margin-bottom: 15px;
             opacity: 0;
             animation: fadeIn 1s forwards;
+        }
+        #wish{
+            font-size: 20px;
+            margin-bottom: 15px;
+            color:#1e1e2f;
+            opacity: 0;
+            animation: fadeIn 1s forwards,fire 1s infinite;
+        }
+        @keyframes fire{
+            0%{
+               text-shadow:2px 0 rgb(216, 23, 23),-2px 0 rgb(243, 246, 242);
+            }
+            50% {
+                text-shadow:-2px 0 rgb(0, 229, 255),2px 0 rgb(255, 0, 187);
+            }
+            100%{
+                text-shadow:2px 0 rgb(64, 3, 245),-2px 0 rgb(3, 253, 32);
+            }
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -78,14 +97,16 @@
     </style>
 </head>
 <body>
-    <h1>JS Quizz</h1>
+    <h1>JS Quiz</h1>
     <div class="container">
         <div id="one"></div>
-        <input type="text" id="in" required>
+        <input type="text" id="in" required onfocus="clearInput()">
         <button id="bt1" onclick="nextQuestion()">Next</button>
         <div id="two"></div>
         <div id="score"></div>
         <div id="exit"></div>
+        <div id="wish"></div>
+        <div id="zero"></div>
         <button id="bt2" onclick="again()">Restart</button>
     </div>
     <script> 
@@ -137,13 +158,20 @@
                     }
                 }
 
+
                 if (currentIndex < selectedQuestions.length) {
                     document.getElementById("one").innerText = `${currentIndex + 1}. ${selectedQuestions[currentIndex]}`;
                     document.getElementById("in").value = "";
                     currentIndex++;
                 } else {
                     document.getElementById("one").innerText = "Quiz Completed!";
-                    document.getElementById("score").innerText = `Your final score is ${score}/${selectedQuestions.length}`;
+                    document.getElementById("score").innerText = `Your final score is ${score}/${selectedQuestions.length}.`;
+                    if(score === 5){
+                document.getElementById("wish").innerHTML="Congratulations!🎊🎆";        
+                    }else if(score === 0){
+                document.getElementById("zero").innerHTML="Better Luck Next Time!😊";        
+                       
+                    }
                     document.getElementById("two").innerHTML="";
                     document.getElementById("in").style.display='none';
                     document.getElementById("bt1").style.display='none';
@@ -152,12 +180,20 @@
                 document.getElementById("in").value = "";
             }
             
+            function clearInput(){
+            document.getElementById("two").innerHTML="";
+            }
+            
+
+         
+            
             function again(){
                 startQuiz();
             }
+
             startQuiz();
         } else {
-            document.getElementById('exit').innerHTML='End Game!';
+            document.getElementById('exit').innerHTML='Game Over!';
             document.getElementById('one').style.display='none';
             document.getElementById('two').style.display='none';
             document.getElementById('score').style.display='none';
@@ -165,6 +201,7 @@
             document.getElementById('bt1').style.display='none';
             document.getElementById('bt2').style.display='none';
         }
+    
     </script>
 </body>
 </html>
