@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock,Paper and Scissor</title>
+    <style>
+        .one,.two {
+            height: 100px;
+            width: 100px;
+            cursor: pointer;
+        }
+        .three {
+            height: 100px;
+            width: 160px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+ <h2>Rock,Paper and Scissor Game</h2>
+ <script>
+    let allimgs = ["imgs/paper.png","imgs/rock2.png", "imgs/scissor.png"];
+    let imgdiv = document.createElement('div');
+    let namesdiv = document.createElement('div');
+    let result = document.createElement('div');
+    let r1 = document.createElement('div');
+    let r2 = document.createElement('div');
+    let win = document.createElement('div');
+
+    namesdiv.id = "namesdiv";
+    result.id = "result";
+    imgdiv.id = 'imgdiv';
+
+   // Buttons with images
+   function createButton(imgSrc) {
+        let button = document.createElement('button');
+        let img = document.createElement('img');
+        img.className = imgSrc.includes("paper") ? "one" : "two";
+        img.src = imgSrc;
+        button.appendChild(img);
+        button.addEventListener('click', () => playGame(imgSrc));
+        return button;
+        }
+       // Game Logic
+       function playGame(playerChoice) {
+            r1.innerHTML = '';
+            r2.innerHTML = '';
+            win.innerHTML = '';
+
+            // Show player choice
+            let playerImg = document.createElement('img');
+            playerImg.src = playerChoice;
+            playerImg.className = "choice";
+            r1.appendChild(playerImg);
+
+            // Generate random computer choice
+            let randomIndex = Math.floor(Math.random() * allimgs.length);
+            let computerChoice = allimgs[randomIndex];
+
+            let compImg = document.createElement('img');
+            compImg.src = computerChoice;
+            compImg.className = "choice";
+            r2.appendChild(compImg);
+
+            // Determine the winner
+            let winner = determineWinner(playerChoice, computerChoice);
+            win.innerHTML = winner;
+        }
+
+        function determineWinner(player, computer) {
+            if (player === computer) {
+                return "It's a Tie!";
+            }
+            if (
+                (player.includes("rock2") && computer.includes("scissor")) ||
+                (player.includes("scissor") && computer.includes("paper")) ||
+                (player.includes("paper") && computer.includes("rock2"))
+            ) {
+                return "You Win!";
+            }
+            return "Computer Wins!";
+        }
+
+ // Add player and computer labels
+        let head1 = document.createElement('h3');
+        head1.innerText = 'You';
+        let head2 = document.createElement('h3');
+        head2.innerText = 'Computer';
+
+        namesdiv.append(head1, head2);
+        result.append(r1, r2);
+        imgdiv.append(createButton("imgs/rock2.png"), createButton("imgs/paper.png"), createButton("imgs/scissor.png"));
+
+
+
+        document.body.append( namesdiv, result,imgdiv,win);
+</script>
+</body>
+</html>
+
+
