@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="black">
+    <title>Random Color Generator</title>
+    <style>
+           body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            margin: 50px;
+            color:white;
+            background-color: bisque;
+        }
+        div {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+  
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            background: #333;
+            color: white;
+            border-radius: 5px;
+            border: none;
+            box-shadow: 4px 4px 4px grey;
+        }
+
+        button:active { 
+            background-color: white; 
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <h1>Click the button to change background color</h1>
+    <button onclick="change()">Change Color</button>
+    <div>#FFFFFF</div>
+    <script>
+          function change() {
+            document.body.style.background = a();
+        }
+        let a = ()=>{
+            ans = '#'+Math.floor(Math.random() * (256*256*256)).toString(16).padStart(6,'0')
+            document.querySelector('div').innerHTML=ans;
+            return ans
+        }
+    </script>
+</head>
+<body>
