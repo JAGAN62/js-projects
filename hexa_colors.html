@@ -39,14 +39,14 @@
     </style>
 </head>
 <body>
-    <h1>Click the button to change background color</h1>
+    <h2>Click the button to change background color</h2>
     <button onclick="change()">Change Color</button>
     <div>#FFFFFF</div>
     <script>
           function change() {
-            document.body.style.background = a();
+            document.body.style.background =generate();
         }
-        let a = ()=>{
+        let generate = ()=>{
             ans = '#'+Math.floor(Math.random() * (256*256*256)).toString(16).padStart(6,'0')
             document.querySelector('div').innerHTML=ans;
             return ans
