@@ -22,34 +22,64 @@
         div > input{
             height: 30px;
             font-size: 16px;
-            font-family: 'Courier New', Courier, monospace;
+            /* font-family: 'Courier New', Courier, monospace; */
         }
+        input:focus {
+    outline: none;
+    border: 1px solid green;
+
+}
         h2{
             margin-bottom: 1px;
+            color:darkgreen;
             /* text-align: center; */
         }
-        #signup,#admin{
+        #signup{
             background-color:green;
             width: 30%;
             text-align: center;
             margin:  0 auto 0 auto;
             cursor: pointer;
             height:25px;
+            color:white;
         }
+        #signup:hover{
+           background:rgb(5, 78, 5);
+        }
+        
         p{
             text-align: center;
         }
         a{
-            cursor: progress;
+            cursor: pointer;
+        }
+        a:hover{
+            color:red;
+        }
+        a:active{
+            color:green;
         }
         .container {
             margin-left: auto;
             margin-right: auto;
             width:30vw;
-            background:rgb(225, 223, 223);
+            background:rgb(221, 217, 217);
             padding: 20px;
+            border:1px solid grey;
             border-radius: 10px;
             box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 768px) {
+            .container {
+                width: 80vw;
+                padding: 15px;
+            }
+            form > div {
+                width: 80%;
+            }
+            #signup {
+                width: 30%;
+            }
         }
  
     </style>

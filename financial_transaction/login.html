@@ -22,8 +22,13 @@
             font-family: 'Courier New', Courier, monospace;
             padding: 5px;
         }
+        input:focus{
+            outline: none;
+            border:1px solid green;
+        }
         h2 {
             text-align: center;
+            color:green;
         }
         #login {
             background-color: green;
@@ -32,11 +37,20 @@
             padding: 10px;
             cursor: pointer;
         }
+        #login:hover{
+           background:rgb(5, 78, 5);
+        }
         p{
             text-align: center;
         }
         a{
             cursor: pointer;
+        }
+        a:active{
+            color:green;
+        }
+        a:hover{
+            color:red;
         }
         .container {
             margin-left: auto;
@@ -46,6 +60,18 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 768px) {
+            .container {
+                width: 80vw;
+                padding: 15px;
+            }
+            form > div {
+                width: 80%;
+            }
+            #signup {
+                width: 30%;
+            }
         }
  
     </style>
