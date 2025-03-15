@@ -3,71 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Signup</title>
     <style>
-        body{
-            background:whitesmoke;
-
+        body {
+            background: whitesmoke;
         }
-       form > div{
+        form > div {
             display: flex;
             flex-direction: column;
             width: 30%;
-            
             row-gap: 20px;
-           margin: 120px auto 0 auto;
-           background-color: white;
-           
+            margin: 120px auto 0 auto;
+            background-color: white;
+            position: relative;
         }
-        div > input{
+        div > input {
             height: 30px;
             font-size: 16px;
-            /* font-family: 'Courier New', Courier, monospace; */
+            width: 100%;
+            padding: 0 40px 0 10px; /* Space for the eye icon */
+            box-sizing: border-box;
         }
         input:focus {
-    outline: none;
-    border: 1px solid green;
-
-}
-        h2{
-            margin-bottom: 1px;
-            color:darkgreen;
-            /* text-align: center; */
+            outline: none;
+            border: 1px solid green;
         }
-        #signup{
-            background-color:green;
+        h2 {
+            margin-bottom: 1px;
+            color: darkgreen;
+        }
+        #signup {
+            background-color: green;
             width: 30%;
             text-align: center;
-            margin:  0 auto 0 auto;
+            margin: 0 auto;
             cursor: pointer;
-            height:25px;
-            color:white;
+            height: 30px;
+            color: white;
+            border: none;
         }
-        #signup:hover{
-           background:rgb(5, 78, 5);
+        #signup:hover {
+            background: rgb(5, 78, 5);
         }
-        
-        p{
+        p {
             text-align: center;
         }
-        a{
+        a {
             cursor: pointer;
         }
-        a:hover{
-            color:red;
+        a:hover {
+            color: red;
         }
-        a:active{
-            color:green;
+        a:active {
+            color: green;
         }
         .container {
             margin-left: auto;
             margin-right: auto;
-            width:30vw;
-            background:rgb(221, 217, 217);
+            width: 30vw;
+            background: rgb(221, 217, 217);
             padding: 20px;
-            border:1px solid grey;
+            border: 1px solid grey;
             border-radius: 10px;
             box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.1);
+        }
+        #password {
+            height: 30px;
+            font-size: 16px;
+            width: 100%;
+            padding: 0 40px 0 10px; /* Space for the eye icon */
+            box-sizing: border-box;
+            position: relative;
+        }
+        #password:focus {
+            outline: none;
+            border: 1px solid green;
+        }
+        .toggle-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .password-container {
+            position: relative;
+            width: 100%;
         }
         @media (max-width: 768px) {
             .container {
@@ -78,28 +100,41 @@
                 width: 80%;
             }
             #signup {
-                width: 30%;
+                width: 50%;
+            }
+            #password {
+                font-size: 14px;
+                padding: 8px;
             }
         }
- 
     </style>
 </head>
 <body>
-   
     <form action="">
-        <div class="container" >
+        <div class="container">
             <h2>Signup</h2>
             <input type="text" id="username" placeholder="User Name" required> 
             <input type="email" id="email" placeholder="Email" required> 
-            <input type="password" id="password" placeholder="password" required>
-            <input type="button" id="signup" value="Signup">
-            <p>Already have account? <a href="login.html">Login</a></p>
+            
+            <div class="password-container">
+                <input type="password" id="password" placeholder="Password" required>
+                <span class="toggle-icon" onclick="togglePassword()">👁️</span>
             </div>
-        </form>
-    
-        
-
-        <script type="module" src="signup.js"></script>
-    
+            
+            <input type="button" id="signup" value="Signup">
+            <p>Already have an account? <a href="login.html">Login</a></p>
+        </div>
+    </form>
+    <script type="module" src="signup.js"></script>
+    <script>
+        function togglePassword() {
+            let passwordField = document.getElementById("password");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+            } else {
+                passwordField.type = "password";
+            }
+        }
+    </script>
 </body>
 </html>

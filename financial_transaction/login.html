@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <style>
-       form > div {
+        body {
+            background: whitesmoke;
+        }
+        form > div {
             display: flex;
             flex-direction: column;
             width: 30%;
@@ -17,18 +20,19 @@
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
         div > input {
-            /* height: 30px; */
             font-size: 16px;
             font-family: 'Courier New', Courier, monospace;
-            padding: 5px;
+            padding: 10px;
+            width: 100%;
+            box-sizing: border-box;
         }
-        input:focus{
+        input:focus {
             outline: none;
-            border:1px solid green;
+            border: 1px solid green;
         }
         h2 {
             text-align: center;
-            color:green;
+            color: green;
         }
         #login {
             background-color: green;
@@ -36,30 +40,51 @@
             border: none;
             padding: 10px;
             cursor: pointer;
+            font-size: 16px;
+            width: 100%;
         }
-        #login:hover{
-           background:rgb(5, 78, 5);
+        #login:hover {
+            background: rgb(5, 78, 5);
         }
-        p{
+        p {
             text-align: center;
         }
-        a{
+        a {
             cursor: pointer;
         }
-        a:active{
-            color:green;
+        a:active {
+            color: green;
         }
-        a:hover{
-            color:red;
+        a:hover {
+            color: red;
         }
         .container {
             margin-left: auto;
             margin-right: auto;
-            width:30vw;
-            background:rgb(225, 223, 223);
+            width: 30vw;
+            background: rgb(225, 223, 223);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .password-container {
+            position: relative;
+            width: 100%;
+        }
+        #password {
+            width: 100%;
+            padding: 10px 40px 10px 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        .toggle-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
         }
         @media (max-width: 768px) {
             .container {
@@ -69,11 +94,10 @@
             form > div {
                 width: 80%;
             }
-            #signup {
-                width: 30%;
+            #login {
+                width: 100%;
             }
         }
- 
     </style>
 </head>
 <body>
@@ -82,13 +106,28 @@
         <div class="container">
             <h2>Login</h2>
             <input type="email" id="email" placeholder="Email" required> 
-            <input type="password" id="password" placeholder="Password" required>
+            
+            <div class="password-container">
+                <input type="password" id="password" placeholder="Password" required>
+                <span class="toggle-icon" onclick="togglePassword()">👁️</span>
+            </div>
+            
             <input type="button" id="login" value="Login">
-            <p>Don't have account?<a href='signup.html'>signup</a></p>
+            <p>Don't have an account? <a href="signup.html">Signup</a></p>
         </div>
     </form>
 
 <script type="module" src="login.js"></script>
-    
+<script>
+    function togglePassword() {
+        let passwordField = document.getElementById("password");
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+        } else {
+            passwordField.type = "password";
+        }
+    }
+</script>
+
 </body>
 </html>
