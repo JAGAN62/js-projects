@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Manager</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+            overflow-x: hidden;
+        }
+        section {
+            display: flex;
+            column-gap: 20px;
+        }
+        .container {
+            margin-left: auto;
+            margin-right: auto;
+            width: 56vw;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        th {
+            padding: 20px 180px 0 0;
+        }
+        input, select {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        select {
+            width: 200px;
+        }
+        button {
+            width: 135px;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .transaction-list {
+            margin-top: 20px;
+        }
+        .transaction {
+            display: flex;
+            justify-content: space-between;
+            background: #ddd;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .dbtn {
+            background-color: red;
+            width: fit-content;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            padding: 5px;
+        }
+        .dbtn:hover {
+            background-color: darkred;
+        }
+       
+        @media (max-width: 480px) {
+    .container {
+        width:100%;
+        padding: 15px;
+        margin-left:-15px;
+    }
+
+    section {
+        flex-direction: column;
+        row-gap: 10px;
+    }
+
+    select, button {
+        width: 100%;
+    }
+    input{
+        width: 93%;
+
+    }
+
+    h2 {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .transaction-list {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        font-size: 14px;
+        padding: 8px;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .dbtn {
+        width: 100%;
+        text-align: center;
+        padding: 8px;
+    }
+
+    /* Ensure proper spacing */
+    th {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    td {
+        padding: 8px;
+        font-size: 12px;
+        text-align: center;
+    }
+
+    /* Adjust Delete button */
+    .dbtn {
+        background-color: red;
+        width: 100%;
+        text-align: center;
+        padding: 8px;
+    }
+
+    /* Make table scrollable on small screens */
+    .transaction-list {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+}
+#balance{
+    color: rgb(52, 52, 157);
+}
+span{
+  
+    margin: 0 5px 0 0;
+}
+#tx1, #tx2{
+    margin-top: 12px ;
+}
+
+
+    </style>
+</head>
+<body >
+    <div class="container">
+        <h2>user Dashboard</h2>
+        <div>
+            <button id="logout" onclick="window.open('login.html')">Logout</button>
+        </div>
+        <h5>Welcome to your personal finance overview.</h5>
+        <div id="tx1">
+            Your Current Balance is: <span id="balance">0</span>
+        </div>
+        <div id="tx2">
+            Recent transactions
+        </div>
+        <div id="list">
+            <ul>
+                
+            </ul>
+
+        </div>
+
+          
+
+    <script>
+     
+
+var balance = 0;
+let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+
+const t_actions = document.querySelector('ul');
+const balanceDisplay = document.getElementById("balance"); // Ensure you have an element with id "balance"
+
+// Function to update balance
+function updateBalance() {
+    balance = transactions.reduce((acc, t) => {
+        return t.type === "income" ? acc + t.amount : acc - t.amount;
+    }, 0);
+    
+    balanceDisplay.innerText = `₹${balance}`; // Update balance in UI
+}
+
+// Function to display transactions
+function displayTransactions() {
+    t_actions.innerHTML = ""; // Clear previous transactions
+    transactions.forEach((t, index) => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+            <span>${t.description}</span> :
+            <span>₹${t.amount}</span> - 
+            <span>(${t.type})</span>
+        `;
+        t_actions.appendChild(li);
+    });
+}
+
+// Function to add a new transaction
+
+  
+
+
+// Initial display of transactions and balance
+displayTransactions();
+updateBalance();
+
+// Example usage
+// addTransaction("Salary", 5000, "income");
+// addTransaction("Groceries", 1000, "expense");
+
+       
+        
+    </script>
+</body>
+</html>
+

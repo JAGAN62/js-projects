@@ -1,0 +1,318 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Manager</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+            overflow-x: hidden;
+        }
+        section {
+            display: flex;
+            column-gap: 20px;
+        }
+        .container {
+            margin-left: auto;
+            margin-right: auto;
+            width: 56vw;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        th {
+            padding: 20px 180px 0 0;
+        }
+        input, select {
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        select {
+            width: 200px;
+        }
+        button {
+            width: 135px;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .transaction-list {
+            margin-top: 20px;
+        }
+        .transaction {
+            display: flex;
+            justify-content: space-between;
+            background: #ddd;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+        }
+        .dbtn {
+            background-color: red;
+            width: fit-content;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            padding: 5px;
+        }
+        .dbtn:hover {
+            background-color: darkred;
+        }
+       
+        @media (max-width: 480px) {
+    .container {
+        width:100%;
+        padding: 15px;
+        margin-left:-15px;
+    }
+
+    section {
+        flex-direction: column;
+        row-gap: 10px;
+    }
+
+    select, button {
+        width: 100%;
+    }
+    input{
+        width: 93%;
+
+    }
+
+    h2 {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .transaction-list {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        font-size: 14px;
+        padding: 8px;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .dbtn {
+        width: 100%;
+        text-align: center;
+        padding: 8px;
+    }
+
+    /* Ensure proper spacing */
+    th {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    td {
+        padding: 8px;
+        font-size: 12px;
+        text-align: center;
+    }
+
+    /* Adjust Delete button */
+    .dbtn {
+        background-color: red;
+        width: 100%;
+        text-align: center;
+        padding: 8px;
+    }
+
+    /* Make table scrollable on small screens */
+    .transaction-list {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+}
+
+
+    </style>
+</head>
+<body onload="loadTransactions()">
+    <div class="container">
+        <h2>Admin Dashboard - Personal Finance Manager</h2>
+        <div>
+            <button id="logout" onclick="window.open('login.html')">Logout</button>
+        </div>
+        <div>
+            Balance: ₹<span id="balance">0</span>
+        </div>
+        <section>
+            <div>
+                <input type="text" id="desc" placeholder="Description">
+            </div>
+            <div>
+                <input type="number" id="amount" placeholder="Amount">
+            </div>
+            <div>
+                <select id="type">
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                </select>
+            </div>
+            <div>
+                <button onclick="addTransaction()">Add Transaction</button>
+            </div>
+        </section>
+        <h3>Transaction List</h3>
+        <div id="transaction-list" class="transaction-list">
+            <table>
+                <tr>
+                    <th>Description</th>
+                    <th>Amount</th>
+                    <th>Type</th>
+                    <th>Action</th>
+                </tr>
+                <tbody id="transactions-body"></tbody>
+            </table>
+        </div>
+        <div class="export">
+            <button id="print" onclick="downloadPDF()">Export PDF</button>
+        </div>
+    </div>
+
+    <script>
+        var balance = 0;
+
+        function addTransaction() {
+            const description = document.getElementById("desc").value;
+            const amount = parseFloat(document.getElementById("amount").value);
+            const type = document.getElementById("type").value;
+
+            if (description === "" || isNaN(amount) || amount <= 0) {
+                alert("Please enter valid details!");
+                return;
+            }
+
+            const transaction = { description, amount, type };
+
+            let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+            transactions.push(transaction);
+            localStorage.setItem("transactions", JSON.stringify(transactions));
+
+            updateBalance();
+            displayTransactions();
+            clearFields();
+        }
+
+        function displayTransactions() {
+            const transBody = document.getElementById("transactions-body");
+            transBody.innerHTML = "";
+
+            let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+
+            transactions.forEach((t, index) => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${t.description}</td>
+                    <td>₹${t.amount}</td>
+                    <td>${t.type}</td>
+                    <td><button class="dbtn" onclick="deleteTransaction(${index})">Delete</button></td>
+                `;
+                transBody.appendChild(tr);
+            });
+
+            updateBalance();
+        }
+
+        function deleteTransaction(index) {
+            let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+            
+            if (transactions[index].type === "income") {
+                balance -= transactions[index].amount;
+            } else {
+                balance += transactions[index].amount;
+            }
+
+            transactions.splice(index, 1);
+            localStorage.setItem("transactions", JSON.stringify(transactions));
+
+            displayTransactions();
+        }
+
+        function updateBalance() {
+            let transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+            balance = transactions.reduce((acc, t) => {
+                return t.type === "income" ? acc + t.amount : acc - t.amount;
+            }, 0);
+
+            document.getElementById("balance").innerText = balance;
+        }
+
+        function loadTransactions() {
+            displayTransactions();
+        }
+
+        function clearFields() {
+            document.getElementById("desc").value = "";
+            document.getElementById("amount").value = "";
+            document.getElementById("type").selectedIndex = 0;
+        }
+  
+
+
+      function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Add title
+    doc.text("Your Transaction List", 20, 10);
+
+    // Get table data
+    const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+    const tableData = transactions.map((t, index) => [
+        index + 1, // Serial Number
+        t.description,
+        `₹${t.amount}`,
+        t.type
+    ]);
+
+    // AutoTable column headers
+    doc.autoTable({
+        head: [["S.No", "Description", "Amount", "Type"]],
+        body: tableData,
+        startY: 20
+    });
+
+    // Save the PDF
+    doc.save("transactions.pdf");
+}
+
+      
+    </script>
+</body>
+</html>
+
