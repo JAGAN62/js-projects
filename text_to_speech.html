@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Text To Speech</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(15px);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      animation: fadeIn 1s ease-out;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #fff;
+      font-size: 28px;
+      letter-spacing: 1px;
+    }
+
+    .input-box {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      font-size: 16px;
+      transition: 0.3s ease;
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    input[type="text"]:focus {
+      box-shadow: 0 0 0 3px rgba(102, 166, 255, 0.4);
+      border:1px solid rgb(7, 73, 73);
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      background: #007bff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,123,255,0.4);
+    }
+
+    button:hover {
+      background: #0056b3;
+      transform: scale(1.05);
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 30px 20px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🗣️ Text To Speech</h2>
+    <div class="input-box">
+      <input type="text" id="text" placeholder="Type something..." onfocus="clearInput()"/>
+    </div>
+    <button id="speakBtn">🔊 Speak</button>
+  </div>
+
+  <script>
+    const textInput = document.getElementById('text');
+    const speakBtn = document.getElementById('speakBtn');
+
+    speakBtn.addEventListener('click', () => {
+      const message = textInput.value.trim();
+      if (message) {
+        const speech = new SpeechSynthesisUtterance(message);
+        speech.pitch = 1;
+        speech.rate = 1;
+        speech.volume = 1;
+        speechSynthesis.speak(speech);
+      } else {
+        alert("Please enter some text to speak.");
+      }
+    });
+  function clearInput() {
+    document.getElementById("text").value = "";
+  }
+</script>
+
+  </script>
+</body>
+</html>
